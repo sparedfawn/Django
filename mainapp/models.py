@@ -10,8 +10,6 @@ class User(models.Model):
         return self.username
 
 
-# stworzone pliki domyslnie trafiaja do kosza o id 1, ktory nie jest koszem a trzyma tam pliki,
-# ktore po usunieciu trafiaja do przypisanego konkretnemu kontu koszowi
 class Bin(models.Model):
     pass
 
@@ -36,26 +34,23 @@ class Directory(models.Model):
 
 
 class File(models.Model):
-    binID = models.ForeignKey(Bin, on_delete=models.CASCADE)
-    directoryID = models.ForeignKey(Directory, on_delete=models.CASCADE)
     fileName = models.CharField(max_length=30)
+    content = models.FileField(default='Default value')
+    directoryID = models.ForeignKey(Directory, on_delete=models.CASCADE)
     uploadDate = models.DateTimeField()
-    content = models.FileField()
+    inBin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.fileName
 
-    def create(self):
-        self.binID = 1
-
     def move_to_bin(self):
-        self.binID = self.directoryID.discID.binID
+        self.inBin = True
 
 
 class PublicLink(models.Model):
     fileID = models.ForeignKey(File, on_delete=models.CASCADE)
     URL = models.URLField(max_length=50)
-    generationDate = models.DateTimeField()
+    generationDate = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return self.URL
