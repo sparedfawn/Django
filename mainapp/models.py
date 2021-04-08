@@ -3,18 +3,18 @@ import datetime
 from django.utils import timezone
 
 
-class User(models.Model):
+class User (models.Model):
     username = models.CharField(max_length=20)
 
     def __str__(self):
         return self.username
 
 
-class Bin(models.Model):
+class Bin (models.Model):
     pass
 
 
-class PrivateDisc(models.Model):
+class PrivateDisc (models.Model):
     userID = models.ForeignKey(User, on_delete=models.CASCADE)
     binID = models.ForeignKey(Bin, on_delete=models.CASCADE)
     discName = models.CharField(max_length=20)
@@ -23,21 +23,19 @@ class PrivateDisc(models.Model):
         return self.discName
 
 
-class Directory(models.Model):
+class Directory (models.Model):
     discID = models.ForeignKey(PrivateDisc, on_delete=models.CASCADE)
     directoryName = models.CharField(max_length=20)
-
-    # previouslyWorkingDirectory = models.Model
 
     def __str__(self):
         return self.directoryName
 
 
-class File(models.Model):
+class File (models.Model):
     fileName = models.CharField(max_length=30)
-    content = models.FileField(default='Default value')
+    content = models.FileField(default='No file loaded')
     directoryID = models.ForeignKey(Directory, on_delete=models.CASCADE)
-    uploadDate = models.DateTimeField()
+    uploadDate = models.DateTimeField(default=timezone.now())
     inBin = models.BooleanField(default=False)
 
     def __str__(self):
@@ -47,7 +45,7 @@ class File(models.Model):
         self.inBin = True
 
 
-class PublicLink(models.Model):
+class PublicLink (models.Model):
     fileID = models.ForeignKey(File, on_delete=models.CASCADE)
     URL = models.URLField(max_length=50)
     generationDate = models.DateTimeField(default=timezone.now())
@@ -56,4 +54,4 @@ class PublicLink(models.Model):
         return self.URL
 
     def isExpired(self):
-        return self.generationDate >= timezone.now() + datetime.timedelta(days=7)
+        return self.generationDate >= timezone.now() - datetime.timedelta(days=7)
