@@ -5,7 +5,15 @@ from django.urls import reverse
 from django.views import generic
 
 
-class Detailed(generic.DetailView):
+class DetailedView(generic.DetailView):
 
-    def __index__(self):
-        return HttpResponse("test 1 2 3")
+    model = User
+    template_name = 'mainapp/base.html'
+
+
+class IndexView(generic.ListView):
+    template_name = 'mainapp/home.html'
+    context_object_name = 'homeIndex'
+
+    def get_queryset(self):
+        return User.objects.order_by('-username')

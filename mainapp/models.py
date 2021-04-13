@@ -5,6 +5,7 @@ from django.utils import timezone
 
 class User (models.Model):
     username = models.CharField(max_length=20)
+    password = models.CharField(max_length=20, default='password')
 
     def __str__(self):
         return self.username
@@ -35,7 +36,7 @@ class File (models.Model):
     fileName = models.CharField(max_length=30)
     content = models.FileField(default='No file loaded')
     directoryID = models.ForeignKey(Directory, on_delete=models.CASCADE)
-    uploadDate = models.DateTimeField(default=timezone.now())
+    uploadDate = models.DateTimeField()
     inBin = models.BooleanField(default=False)
 
     def __str__(self):
@@ -48,7 +49,7 @@ class File (models.Model):
 class PublicLink (models.Model):
     fileID = models.ForeignKey(File, on_delete=models.CASCADE)
     URL = models.URLField(max_length=50)
-    generationDate = models.DateTimeField(default=timezone.now())
+    generationDate = models.DateTimeField()
 
     def __str__(self):
         return self.URL
