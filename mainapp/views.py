@@ -6,9 +6,8 @@ from django.views import generic
 
 
 class DetailedView(generic.DetailView):
-
     model = User
-    template_name = 'mainapp/base.html'
+    template_name = 'mainapp/personal.html'
 
 
 class IndexView(generic.ListView):
@@ -17,3 +16,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         return User.objects.order_by('-username')
+
+
+def register(request):
+    return render(request, 'mainapp/register.html')

@@ -16,8 +16,8 @@ class Bin (models.Model):
 
 
 class PrivateDisc (models.Model):
-    userID = models.ForeignKey(User, on_delete=models.CASCADE)
-    binID = models.ForeignKey(Bin, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bin = models.ForeignKey(Bin, on_delete=models.CASCADE)
     discName = models.CharField(max_length=20)
 
     def __str__(self):
@@ -25,7 +25,7 @@ class PrivateDisc (models.Model):
 
 
 class Directory (models.Model):
-    discID = models.ForeignKey(PrivateDisc, on_delete=models.CASCADE)
+    disc = models.ForeignKey(PrivateDisc, on_delete=models.CASCADE)
     directoryName = models.CharField(max_length=20)
 
     def __str__(self):
@@ -35,7 +35,7 @@ class Directory (models.Model):
 class File (models.Model):
     fileName = models.CharField(max_length=30)
     content = models.FileField(default='No file loaded')
-    directoryID = models.ForeignKey(Directory, on_delete=models.CASCADE)
+    directory = models.ForeignKey(Directory, on_delete=models.CASCADE)
     uploadDate = models.DateTimeField()
     inBin = models.BooleanField(default=False)
 
@@ -47,7 +47,7 @@ class File (models.Model):
 
 
 class PublicLink (models.Model):
-    fileID = models.ForeignKey(File, on_delete=models.CASCADE)
+    file = models.ForeignKey(File, on_delete=models.CASCADE)
     URL = models.URLField(max_length=50)
     generationDate = models.DateTimeField()
 
