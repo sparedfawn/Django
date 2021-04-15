@@ -2,8 +2,6 @@
 
 {% block body_content %}
 
-    <p>TEST TEST</p>
-
     {% csrf_token %}
     {% for fil in directory.file_set.all %}
 

@@ -5,7 +5,7 @@
     {% csrf_token %}
     {% for dir in user.privateDisc.directory_set.all %}
 
-        <b><a href="{% url 'mainapp:directory' dir.id %}"> {{ dir.directoryName }} </a></b><br><br>
+        <b><a href="{{ dir.id }}"> {{ dir.directoryName }} </a></b><br><br>
 
     {% endfor %}
 
