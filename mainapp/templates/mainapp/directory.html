@@ -5,7 +5,11 @@
     {% csrf_token %}
     {% for fil in directory.file_set.all %}
 
-        <b>{{ fil.fileName }}</b><br><br>
+        {% if fil.inBin == False %}
+
+            <b>{{ fil.fileName }}</b><br><br>
+
+        {% endif %}
 
     {% endfor %}
 

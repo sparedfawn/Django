@@ -21,5 +21,10 @@ class InDirectoryView(generic.DetailView):
     template_name = 'mainapp/directory.html'
 
 
+class BinView(generic.DetailView):
+    model = User
+    template_name = 'mainapp/bin.html'
+
+
 def register(request):
     return render(request, 'mainapp/register.html')
