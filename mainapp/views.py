@@ -1,13 +1,6 @@
-from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.shortcuts import render
 from django.views import generic
-
-
-class DetailedView(generic.DetailView):
-    model = User
-    template_name = 'mainapp/personal.html'
 
 
 class IndexView(generic.ListView):
@@ -16,6 +9,16 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         return User.objects.order_by('-username')
+
+
+class DetailedView(generic.DetailView):
+    model = User
+    template_name = 'mainapp/personal.html'
+
+
+class InDirectoryView(generic.DetailView):
+    model = Directory
+    template_name = 'mainapp/directory.html'
 
 
 def register(request):

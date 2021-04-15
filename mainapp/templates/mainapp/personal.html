@@ -2,6 +2,11 @@
 
 {% block body_content %}
 
-    <p>test test</p>
+    {% csrf_token %}
+    {% for dir in user.privateDisc.directory_set.all %}
+
+        <b><a href="{% url 'mainapp:directory' dir.id %}"> {{ dir.directoryName }} </a></b><br><br>
+
+    {% endfor %}
 
 {% endblock %}

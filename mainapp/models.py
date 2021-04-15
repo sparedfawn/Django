@@ -3,25 +3,25 @@ import datetime
 from django.utils import timezone
 
 
-class User (models.Model):
-    username = models.CharField(max_length=20)
-    password = models.CharField(max_length=20, default='password')
-
-    def __str__(self):
-        return self.username
-
-
 class Bin (models.Model):
     pass
 
 
 class PrivateDisc (models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     bin = models.ForeignKey(Bin, on_delete=models.CASCADE)
     discName = models.CharField(max_length=20)
 
     def __str__(self):
         return self.discName
+
+
+class User (models.Model):
+    privateDisc = models.ForeignKey(PrivateDisc, on_delete=models.CASCADE)
+    username = models.CharField(max_length=20)
+    password = models.CharField(max_length=20, default='password')
+
+    def __str__(self):
+        return self.username
 
 
 class Directory (models.Model):
