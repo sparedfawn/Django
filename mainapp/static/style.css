@@ -1,0 +1,90 @@
+body {
+
+    background-image: url('home_background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size:cover;
+}
+
+form.center {
+
+    margin: auto;
+    width: 9%;
+    border: 3px;
+    padding: 10px;
+}
+
+div.right {
+
+    position:absolute;
+    font-size:xx-large;
+    right: 30px;
+    border: 30px;
+}
+
+h1 {
+
+    font-family:'Brush Script MT';
+    text-align:center;
+}
+
+p {
+
+    text-align: center;
+}
+
+div.floatLeft {
+
+   float: left;
+}
+
+a:link {
+
+    color: black;
+    text-decoration: none;
+}
+
+a:visited {
+
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+
+    color: red;
+    text-decoration: none;
+}
+
+/*to jest obrazek na ktory najezdzamy i wtedy dzieje sie magia PogU*/
+.drop-image {
+    background-color: transparent;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: grid;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}

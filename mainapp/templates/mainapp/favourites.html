@@ -1,0 +1,33 @@
+{% extends "./base.html" %}
+
+{% block body_content %}
+
+    {% csrf_token %}
+    {% for dir in user.privateDisc.directory_set.all %}
+
+        {% for fil in dir.file_set.all %}
+
+              {% if fil.isFavourite == True %}
+
+                  <div class="floatLeft">
+
+                        <a href="{{ fil.id }}">
+
+                            <figure>
+
+                                    <img src="../../static/file-empty.png" width="128" height="128">
+                                    <figcaption>{{ fil.fileName }}</figcaption>
+
+                            </figure>
+
+                        </a>
+
+                    </div>
+
+              {% endif %}
+
+        {% endfor %}
+
+    {% endfor %}
+
+{% endblock %}
