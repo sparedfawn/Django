@@ -26,5 +26,10 @@ class BinView(generic.DetailView):
     template_name = 'mainapp/bin.html'
 
 
+class FavouriteView(generic.DetailView):
+    model = User
+    template_name = 'mainapp/favourites.html'
+
+
 def register(request):
     return render(request, 'mainapp/register.html')

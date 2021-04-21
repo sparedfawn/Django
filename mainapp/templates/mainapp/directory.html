@@ -2,12 +2,59 @@
 
 {% block body_content %}
 
+    <style>
+
+        a:hover {
+
+            color: black;
+            text-decoration: none;
+        }
+
+    </style>
+
     {% csrf_token %}
     {% for fil in directory.file_set.all %}
 
         {% if fil.inBin == False %}
 
-            <b>{{ fil.fileName }}</b><br><br>
+            <div class="dropdown">
+
+                <div class="floatLeft">
+
+                <a>
+
+                    <figure tabindex="-1">
+
+                            <img class="drop-image" src="../../static/file-empty.png" width="128" height="128">
+
+                            <figcaption>{{ fil.fileName }}</figcaption>
+
+                            <div class="dropdown-content">
+                                <a href="#">Download</a>
+                                <a href="#">Share</a>
+                                <a href="#">Make Favourite</a>
+                                <a href="#">Delete</a>
+                            </div>
+
+                        </figure>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+{#            <script>#}
+{##}
+{#                function Coords(event) {#}
+{##}
+{#                    let x = event.clientX#}
+{#                    let y = event.clientY#}
+{##}
+{#                    document.write(x)#}
+{#                }#}
+{##}
+{#            </script>#}
 
         {% endif %}
 

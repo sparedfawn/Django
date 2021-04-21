@@ -2,13 +2,68 @@
 
 {% block body_content %}
 
+    <style>
+
+        div.floatLeft {
+            float: left;
+        }
+
+    </style>
+
+    <h1 style="font-family:'Brush Script MT';text-align:center"><font size="+5">Welcome Back, {{ user.username }}!</font></h1><br><br>
+
     {% csrf_token %}
     {% for dir in user.privateDisc.directory_set.all %}
 
-        <b><a href="{{ dir.id }}"> {{ dir.directoryName }} </a></b><br><br>
+        <div class="floatLeft">
+
+            <a href="{{ dir.id }}">
+
+            <figure>
+
+                    <img src="../../static/folder.png" width="128" height="128">
+                    <figcaption>{{ dir.directoryName }}</figcaption>
+
+            </figure>
+
+        </a>
+
+        </div>
 
     {% endfor %}
 
-    <b><a href="bin">Trash Can</a></b>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+    <div class="floatLeft">
+
+        <a href="favourites">
+
+            <figure>
+                        <img src="../../static/folder_heart.png" width="128" height="128">
+                        <figcaption>Favourites</figcaption>
+            </figure>
+
+        </a>
+
+    </div>
+
+    <div class="floatLeft">
+
+        <a href="bin">
+
+            <figure>
+                        <img src="../../static/folder_system.png" width="128" height="128">
+                        <figcaption>Trash Can</figcaption>
+            </figure>
+
+        </a>
+
+    </div>
+
+    <br><br>
+
 
 {% endblock %}
+

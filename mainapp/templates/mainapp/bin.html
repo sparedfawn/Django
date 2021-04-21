@@ -9,7 +9,20 @@
 
               {% if fil.inBin == True %}
 
-                  <b>{{ fil.fileName }}</b><br><br>
+                  <div class="floatLeft">
+
+                        <a href="{{ fil.id }}">
+
+                            <figure>
+
+                                    <img src="../../static/file-empty.png" width="128" height="128">
+                                    <figcaption>{{ fil.fileName }}</figcaption>
+
+                            </figure>
+
+                        </a>
+
+                    </div>
 
               {% endif %}
 

@@ -38,12 +38,22 @@ class File (models.Model):
     directory = models.ForeignKey(Directory, on_delete=models.CASCADE)
     uploadDate = models.DateTimeField()
     inBin = models.BooleanField(default=False)
+    isFavourite = models.BooleanField(default=False)
 
     def __str__(self):
         return self.fileName
 
     def move_to_bin(self):
         self.inBin = True
+
+    def make_favourite(self):
+        self.isFavourite = True
+
+    def return_from_bin(self):
+        self.inBin = False
+
+    def unmake_favourite(self):
+        self.isFavourite = False
 
 
 class PublicLink (models.Model):
