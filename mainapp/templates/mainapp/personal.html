@@ -2,16 +2,6 @@
 
 {% block body_content %}
 
-    <style>
-
-        div.floatLeft {
-            float: left;
-        }
-
-    </style>
-
-    <h1 style="font-family:'Brush Script MT';text-align:center"><font size="+5">Welcome Back, {{ user.username }}!</font></h1><br><br>
-
     {% csrf_token %}
     {% for dir in user.privateDisc.directory_set.all %}
 
@@ -21,7 +11,7 @@
 
             <figure>
 
-                    <img src="../../static/folder.png" width="128" height="128">
+                    <img src="../../static/folder.png" width="107" height="107">
                     <figcaption>{{ dir.directoryName }}</figcaption>
 
             </figure>
@@ -36,34 +26,48 @@
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 
-    <div class="floatLeft">
+{#    <div class="floatLeft">#}
+{##}
+{#        <a href="favourites">#}
+{##}
+{#            <figure>#}
+{#                        <img src="../../static/folder_heart.png" width="128" height="128">#}
+{#                        <figcaption>Favourites</figcaption>#}
+{#            </figure>#}
+{##}
+{#        </a>#}
+{##}
+{#    </div>#}
+{##}
+{#    <div class="floatLeft">#}
+{##}
+{#        <a href="bin">#}
+{##}
+{#            <figure>#}
+{#                        <img src="../../static/folder_system.png" width="128" height="128">#}
+{#                        <figcaption>Trash Can</figcaption>#}
+{#            </figure>#}
+{##}
+{#        </a>#}
+{##}
+{#    </div>#}
 
-        <a href="favourites">
+{#    <br><br>#}
 
-            <figure>
-                        <img src="../../static/folder_heart.png" width="128" height="128">
-                        <figcaption>Favourites</figcaption>
-            </figure>
 
-        </a>
+{% endblock %}
 
-    </div>
 
-    <div class="floatLeft">
+{% block list_content %}
 
-        <a href="bin">
+    <a href="#" class="listed_font">Create new directory</a><br>
+    <a href="#" class="listed_font">Rename directory</a><br>
+    <a href="#" class="listed_font">Delete directory</a><br>
 
-            <figure>
-                        <img src="../../static/folder_system.png" width="128" height="128">
-                        <figcaption>Trash Can</figcaption>
-            </figure>
+    <br><br><br>
 
-        </a>
-
-    </div>
-
-    <br><br>
-
+    <a href="bin"class="listed_font">Trash Can</a><br>
+    <a href="favourites"class="listed_font">Favourites</a><br>
 
 {% endblock %}
 

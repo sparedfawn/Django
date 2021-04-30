@@ -6,6 +6,7 @@ urlpatterns = [
     path('<int:pk>/', views.DetailedView.as_view(), name='base'),
     path('<int:pk>/bin/', views.BinView.as_view(), name='bin'),
     path('<int:pk>/favourites/', views.FavouriteView.as_view(), name='favourite'),
-    path('register', views.register, name='register'),
+    path('sign-up', views.register, name='register'),
     path('<int:user_id>/<int:pk>', views.InDirectoryView.as_view(), name='inDirectory'),
+    path('sign-in', views.login, name='login')
 ]

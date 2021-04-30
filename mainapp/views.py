@@ -4,7 +4,7 @@ from django.views import generic
 
 
 class IndexView(generic.ListView):
-    template_name = 'mainapp/home.html'
+    template_name = 'mainapp/index.html'
     context_object_name = 'homeIndex'
 
     def get_queryset(self):
@@ -32,4 +32,8 @@ class FavouriteView(generic.DetailView):
 
 
 def register(request):
-    return render(request, 'mainapp/register.html')
+    return render(request, 'mainapp/Sign-up.html')
+
+
+def login(request):
+    return render(request, 'mainapp/Sing-in.html')

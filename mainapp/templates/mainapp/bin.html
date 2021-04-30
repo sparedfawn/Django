@@ -15,8 +15,11 @@
 
                             <figure>
 
-                                    <img src="../../static/file-empty.png" width="128" height="128">
-                                    <figcaption>{{ fil.fileName }}</figcaption>
+                                    <img src="../../static/file-empty.png" width="107" height="107">
+                                    <figcaption>
+                                        <input type="checkbox" id={{ fil.fileID }}>
+                                        {{ fil.fileName }}
+                                    </figcaption>
 
                             </figure>
 
@@ -29,5 +32,11 @@
         {% endfor %}
 
     {% endfor %}
+
+{% endblock %}
+
+{% block list_content %}
+
+    <a href="#" class="listed_font">Restore file</a><br>
 
 {% endblock %}
