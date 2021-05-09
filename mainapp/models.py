@@ -1,31 +1,27 @@
 from django.db import models
 import datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
-class Bin (models.Model):
-    pass
+# class PrivateDisc (models.Model):
+#     discName = models.CharField(max_length=20)
+#
+#     def __str__(self):
+#         return self.discName
 
-
-class PrivateDisc (models.Model):
-    bin = models.ForeignKey(Bin, on_delete=models.CASCADE)
-    discName = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.discName
-
-
-class User (models.Model):
-    privateDisc = models.ForeignKey(PrivateDisc, on_delete=models.CASCADE)
-    username = models.CharField(max_length=20)
-    password = models.CharField(max_length=20, default='password')
-
-    def __str__(self):
-        return self.username
+#
+# class User (models.Model):
+#     privateDisc = models.ForeignKey(PrivateDisc, on_delete=models.CASCADE)
+#     username = models.CharField(max_length=20)
+#     password = models.CharField(max_length=20, default='password')
+#
+#     def __str__(self):
+#         return self.username
 
 
 class Directory (models.Model):
-    disc = models.ForeignKey(PrivateDisc, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     directoryName = models.CharField(max_length=20)
 
     def __str__(self):

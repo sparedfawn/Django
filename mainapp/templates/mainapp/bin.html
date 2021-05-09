@@ -3,7 +3,7 @@
 {% block body_content %}
 
     {% csrf_token %}
-    {% for dir in user.privateDisc.directory_set.all %}
+    {% for dir in user.directory_set.all %}
 
         {% for fil in dir.file_set.all %}
 

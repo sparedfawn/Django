@@ -1,12 +1,14 @@
 from django.urls import path
 from . import views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='home'),
-    path('<int:pk>/', views.DetailedView.as_view(), name='base'),
-    path('<int:pk>/bin/', views.BinView.as_view(), name='bin'),
-    path('<int:pk>/favourites/', views.FavouriteView.as_view(), name='favourite'),
+    path('drive/bin/', views.binPage, name='bin'),
+    path('drive/favourites/', views.favouritePage, name='favourite'),
     path('sign-up', views.register, name='register'),
-    path('<int:user_id>/<int:pk>', views.InDirectoryView.as_view(), name='inDirectory'),
-    path('sign-in', views.login, name='login')
+    path('drive/<int:pk>', login_required(login_url='login')(views.InDirectoryView.as_view()), name='inDirectory'),
+    path('sign-in', views.loginPage, name='login'),
+    path('drive', views.drivePage, name='drive'),
+    path('logout', views.logoutUser, name='logout')
 ]

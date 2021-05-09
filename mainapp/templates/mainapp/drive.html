@@ -1,0 +1,99 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#    <head>#}
+{#        <meta charset="UTF-8">#}
+{#        <title>{{ user.username }}'s disk</title>#}
+{#    </head>#}
+{#    <body>#}
+{#        <span>Welcome back {{ request.user }}</span><pre></pre>#}
+{#        <span><a href="{% url 'logout' %}">Logout</a> </span><br><br>#}
+{##}
+{#        {% for directory in user.directory_set.all %}#}
+{##}
+{#            <p>{{ directory.directoryName }}</p>#}
+{##}
+{#            {% for file in directory.file_set.all %}#}
+{##}
+{#                <pre><p>{{ file.fileName }}</p></pre>#}
+{##}
+{#            {% endfor %}#}
+{##}
+{#            <br><br>#}
+{##}
+{#        {% endfor %}#}
+{#    </body>#}
+{#</html>#}
+
+
+{% extends "./base.html" %}
+
+{% block body_content %}
+
+    {% csrf_token %}
+    {% for dir in user.directory_set.all %}
+
+        <div class="floatLeft">
+
+            <a href='drive/{{ dir.id }}'>
+
+            <figure>
+
+                    <img src="../../static/folder.png" width="107" height="107">
+                    <figcaption>{{ dir.directoryName }}</figcaption>
+
+            </figure>
+
+        </a>
+
+        </div>
+
+    {% endfor %}
+
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+{#    <div class="floatLeft">#}
+{##}
+{#        <a href="favourites">#}
+{##}
+{#            <figure>#}
+{#                        <img src="../../static/folder_heart.png" width="128" height="128">#}
+{#                        <figcaption>Favourites</figcaption>#}
+{#            </figure>#}
+{##}
+{#        </a>#}
+{##}
+{#    </div>#}
+{##}
+{#    <div class="floatLeft">#}
+{##}
+{#        <a href="bin">#}
+{##}
+{#            <figure>#}
+{#                        <img src="../../static/folder_system.png" width="128" height="128">#}
+{#                        <figcaption>Trash Can</figcaption>#}
+{#            </figure>#}
+{##}
+{#        </a>#}
+{##}
+{#    </div>#}
+
+{#    <br><br>#}
+
+
+{% endblock %}
+
+
+{% block list_content %}
+
+    <a href="#" class="listed_font">Create new directory</a><br>
+    <a href="#" class="listed_font">Rename directory</a><br>
+    <a href="#" class="listed_font">Delete directory</a><br>
+
+    <br><br><br>
+
+    <a href='drive/bin' class="listed_font">Trash Can</a><br>
+    <a href='drive/favourites' class="listed_font">Favourites</a><br>
+
+{% endblock %}

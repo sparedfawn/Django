@@ -23,7 +23,7 @@ body {
     padding: 10px;
 }
 
-form.captcha_center {
+div.captcha_center {
 
     margin: auto;
     width: 13%;
