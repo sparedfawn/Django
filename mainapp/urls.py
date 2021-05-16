@@ -8,7 +8,9 @@ urlpatterns = [
     path('drive/favourites/', views.favouritePage, name='favourite'),
     path('sign-up', views.register, name='register'),
     path('drive/<int:pk>', login_required(login_url='login')(views.InDirectoryView.as_view()), name='inDirectory'),
+    path('drive/<int:pk>/upload_file', views.upload_file, name='upload_file'),
     path('sign-in', views.loginPage, name='login'),
     path('drive', views.drivePage, name='drive'),
-    path('logout', views.logoutUser, name='logout')
+    path('logout', views.logoutUser, name='logout'),
+    path('drive/create_directory', views.create_directory, name='create_directory')
 ]

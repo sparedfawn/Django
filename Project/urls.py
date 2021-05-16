@@ -19,6 +19,7 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/logout/', lambda request: redirect('/logout', permanent=False)),
+    path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('', include('mainapp.urls')),
 ]

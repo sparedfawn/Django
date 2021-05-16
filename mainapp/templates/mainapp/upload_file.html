@@ -1,0 +1,101 @@
+{% extends "./directory.html" %}
+
+{% block body_content %}
+
+    {% for directory in user.directory_set.all %}
+
+        {% csrf_token %}
+
+        {% if directory.id == directory_key %}
+
+            {% for fil in directory.file_set.all %}
+
+                {% if fil.inBin == False %}
+
+                    <div class="floatLeft">
+
+                        <a>
+                            <figure>
+
+                                {% if fil.extension == 'pdf' %}
+
+                                    <img src="../../static/images/file_icons/pdf_icon.png" width="73" height="81">
+
+                                {% elif fil.extension == 'doc' or fil.extension == 'docx' or fil.extension == 'docs' %}
+
+                                    <img src="../../static/images/file_icons/doc_icon.png" width="73" height="81">
+
+                                {% elif fil.extension == 'mov' or fil.extension == 'mp4' or fil.extension == 'mkv' %}
+
+                                    <img src="../../static/images/file_icons/mov_icon.png" width="73" height="81">
+
+                                {% elif fil.extension == 'mp3' or fil.extension == 'wav' or fil.extension == 'm4a' %}
+
+                                    <img src="../../static/images/file_icons/mp3_icon.png" width="73" height="81">
+
+                                {% elif fil.extension == 'png' or fil.extension == 'jpg' or fil.extension == 'jpeg' %}
+
+                                    <img src="../../static/images/file_icons/png_icon.png" width="73" height="81">
+
+                                {% elif fil.extension == 'ppt' %}
+
+                                    <img src="../../static/images/file_icons/ppt_icon.png" width="73" height="81">
+
+                                {% elif fil.extension == 'txt' %}
+
+                                    <img src="../../static/images/file_icons/txt_icon.png" width="73" height="81">
+
+                                {% elif fil.extension == 'xls' %}
+
+                                    <img src="../../static/images/file_icons/xls_icon.png" width="73" height="81">
+
+                                {% elif fil.extension == 'rar' or fil.extension == 'zip' or fil.extension == 'tar' %}
+
+                                    <img src="../../static/images/file_icons/zip_icon.png" width="73" height="81">
+
+                                {% else %}
+
+                                    <img src="../../static/images/file_icons/file_icon_v2.png" width="75" height="81">
+
+                                {% endif %}
+
+                                <figcaption>
+{#                                    <input type="checkbox" id={{ fil.fileID }}>#}
+                                    {{ fil.fileName }}
+                                </figcaption>
+
+                            </figure>
+
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endfor %}
+
+    <div class="floatLeft">
+
+        <figure>
+
+            <img src="../../static/images/file_icons/file_icon_v2.png" width="75" height="81">
+
+            <figcaption>
+
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.content }}
+                    <br><input type="submit" value="upload">
+                </form>
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+{% endblock %}

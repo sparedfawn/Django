@@ -1,0 +1,30 @@
+{% extends "./drive.html" %}
+
+{% block creation_form %}
+
+    <link rel="stylesheet" href="../../static/css/clear_input.css" media="screen">
+
+    <div class="floatLeft">
+
+        <figure>
+
+            <img src="../../static/images/directory.png" width="72" height="65">
+
+            <figcaption>
+
+                <form action="" method="POST">
+
+                {% csrf_token %}
+
+                {{ form.directoryName }}
+
+                <br><input type="submit" value="Create">
+
+                </form>
+
+            </figcaption>
+
+        </figure>
+    </div>
+
+{% endblock %}

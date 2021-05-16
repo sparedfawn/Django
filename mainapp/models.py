@@ -30,6 +30,7 @@ class Directory (models.Model):
 
 class File (models.Model):
     fileName = models.CharField(max_length=30)
+    extension = models.CharField(max_length=4, default='none')
     content = models.FileField(default='No file loaded')
     directory = models.ForeignKey(Directory, on_delete=models.CASCADE)
     uploadDate = models.DateTimeField()
@@ -37,7 +38,7 @@ class File (models.Model):
     isFavourite = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.fileName
+        return self.fileName + "." + self.extension
 
     def move_to_bin(self):
         self.inBin = True
@@ -55,7 +56,7 @@ class File (models.Model):
 class PublicLink (models.Model):
     file = models.ForeignKey(File, on_delete=models.CASCADE)
     URL = models.URLField(max_length=50)
-    generationDate = models.DateTimeField()
+    generationDate = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.URL

@@ -2,10 +2,11 @@ from .models import *
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth import authenticate, login, logout
-from .forms import CreateUserForm
+from .forms import CreateUserForm, CreateDirectoryForm, UploadFileForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from .decorators import check_recaptcha
 
@@ -34,8 +35,8 @@ def register(request):
                 else:
                     return redirect('register')
 
-        context = {'form':form}
-        return render(request, 'mainapp/try3.html', context)
+        context = {'form': form}
+        return render(request, 'mainapp/sign-up.html', context)
 
 
 def loginPage(request):
@@ -58,12 +59,15 @@ def loginPage(request):
                 messages.info(request, 'Username or password is incorrect')
 
         context = {}
-        return render(request, 'mainapp/Sing-in.html', context)
+        return render(request, 'mainapp/sign-in.html', context)
 
 
 @login_required(login_url='login')
 def drivePage(request):
-    return render(request, 'mainapp/drive.html')
+    if request.user.username == 'admin':
+        return redirect('../admin')
+    else:
+        return render(request, 'mainapp/drive.html')
 
 
 def logoutUser(request):
@@ -81,10 +85,42 @@ def favouritePage(request):
     return render(request, 'mainapp/favourites.html')
 
 
-# @login_required(login_url='login')
-# def inDirectoryPage(request):
-#     return render(request, 'mainapp/directory.html')
-
 class InDirectoryView(generic.DetailView):
     model = Directory
     template_name = 'mainapp/directory.html'
+
+
+@login_required(login_url='login')
+def create_directory(request):
+    form = CreateDirectoryForm(request.POST or None)
+    if form.is_valid():
+        stock = form.save(commit=False)
+        stock.user = request.user
+        stock.save()
+        return redirect('drive')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'mainapp/create_directory.html', context)
+
+
+@login_required(login_url='login')
+def upload_file(request, pk):
+    form = UploadFileForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        stock = form.save(commit=False)
+        stock.directory = Directory(pk)
+        stock.uploadDate = timezone.now()
+        name = stock.content.name
+        index = name.find('.')
+        stock.fileName = name[:index]
+        stock.extension = name[index+1:]
+        stock.save()
+        return redirect('drive')
+
+    context = {
+        'form': form,
+        'directory_key': pk,
+    }
+    return render(request, 'mainapp/upload_file.html', context)
