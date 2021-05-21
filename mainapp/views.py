@@ -117,7 +117,7 @@ def upload_file(request, pk):
         stock.fileName = name[:index]
         stock.extension = name[index+1:]
         stock.save()
-        return redirect('drive')
+        return redirect('../{}'.format(pk))
 
     context = {
         'form': form,
