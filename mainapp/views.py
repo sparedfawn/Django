@@ -106,6 +106,133 @@ def create_directory(request):
 
 
 @login_required(login_url='login')
+def rename_directory(request):
+    return render(request, 'mainapp/rename_directory.html')
+
+
+@login_required(login_url='login')
+def rename_directory_function(request, pk):
+    if request.method == 'POST':
+        name = request.POST.get('input_name')
+        directory = Directory.objects.get(pk=pk)
+        directory.directoryName = name
+        directory.save()
+        return redirect('../../drive')
+
+    context = {
+        'key': pk
+    }
+    return render(request, 'mainapp/rename_directory_function.html', context)
+
+
+@login_required(login_url='login')
+def delete_directory(request):
+    return render(request, 'mainapp/delete_directory.html')
+
+
+@login_required(login_url='login')
+def rename_file(request, directory_key):
+    context = {
+        'directory_key': directory_key
+    }
+    return render(request, 'mainapp/rename_file.html', context)
+
+
+@login_required(login_url='login')
+def rename_file_function(request, directory_key, file_key):
+    if request.method == 'POST':
+        name = request.POST.get('input_name')
+        file = File.objects.get(pk=file_key)
+        file.fileName = name
+        file.save()
+        return redirect('../../{}'.format(directory_key))
+
+    context = {
+        'directory_key': directory_key,
+        'file_key': file_key,
+    }
+    return render(request, 'mainapp/rename_file_function.html', context)
+
+
+@login_required(login_url='login')
+def delete_directory_function(request, pk):
+    Directory.objects.get(pk=pk).delete()
+    return redirect('drive')
+
+
+@login_required(login_url='login')
+def delete_file(request, directory_key):
+    context = {
+        'directory_key': directory_key
+    }
+    return render(request, 'mainapp/delete_file.html', context)
+
+
+@login_required(login_url='login')
+def delete_file_function(request, directory_key, file_key):
+    File.objects.get(pk=file_key).delete()
+    return redirect('../../../drive/{}'.format(directory_key))
+
+
+@login_required(login_url='login')
+def make_favourite(request, directory_key):
+    context = {
+        'directory_key': directory_key
+    }
+    return render(request, 'mainapp/make_favourite.html', context)
+
+
+@login_required(login_url='login')
+def make_favourite_function(request, directory_key, file_key):
+    file = File.objects.get(pk=file_key)
+    file.make_favourite()
+    file.save()
+    return redirect('../../../drive/{}'.format(directory_key))
+
+
+@login_required(login_url='login')
+def move_to_bin(request, directory_key):
+    context = {
+        'directory_key': directory_key
+    }
+    return render(request, 'mainapp/move_to_bin.html', context)
+
+
+@login_required(login_url='login')
+def move_to_bin_function(request, directory_key, file_key):
+    file = File.objects.get(pk=file_key)
+    file.move_to_bin()
+    file.save()
+    return redirect('../../../drive/{}'.format(directory_key))
+
+
+@login_required(login_url='login')
+def restore_file(request):
+    return render(request, 'mainapp/restore_file.html')
+
+
+@login_required(login_url='login')
+def restore_file_function(request, file_key):
+    file = File.objects.get(pk=file_key)
+    file.return_from_bin()
+    file.save()
+    return redirect('../../bin')
+
+
+@login_required(login_url='login')
+def unmake_favourite(request):
+    return render(request, 'mainapp/unmake_favourite.html')
+
+
+@login_required(login_url='login')
+def unmake_favourite_function(request, file_key):
+    file = File.objects.get(pk=file_key)
+    file.unmake_favourite()
+    file.save()
+    return redirect('../../favourites')
+
+
+@login_required(login_url='login')
 def upload_file(request, pk):
     form = UploadFileForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -124,3 +251,23 @@ def upload_file(request, pk):
         'directory_key': pk,
     }
     return render(request, 'mainapp/upload_file.html', context)
+
+
+@login_required(login_url='login')
+def rename_favourite(request):
+    return render(request, 'mainapp/rename_favourite.html')
+
+
+@login_required(login_url='login')
+def rename_favourite_function(request, file_key):
+    if request.method == 'POST':
+        name = request.POST.get('input_name')
+        file = File.objects.get(pk=file_key)
+        file.fileName = name
+        file.save()
+        return redirect('../../favourites')
+
+    context = {
+        'file_key': file_key,
+    }
+    return render(request, 'mainapp/rename_favourite_function.html', context)

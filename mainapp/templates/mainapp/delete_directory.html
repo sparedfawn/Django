@@ -1,0 +1,26 @@
+{% extends './rename_directory.html' %}
+
+{% block body_content %}
+
+    {% csrf_token %}
+    {% for dir in user.directory_set.all %}
+
+        <div class="floatLeft">
+
+            <a href='delete_directory/{{ dir.id }}'>
+
+            <figure>
+                    <img src="../../static/images/directory.png" width="72" height="65">
+                    <figcaption>
+                        {{ dir.directoryName }}
+                    </figcaption>
+
+            </figure>
+
+        </a>
+
+        </div>
+
+    {% endfor %}
+
+{% endblock %}

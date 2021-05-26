@@ -4,28 +4,15 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 
-# class PrivateDisc (models.Model):
-#     discName = models.CharField(max_length=20)
-#
-#     def __str__(self):
-#         return self.discName
-
-#
-# class User (models.Model):
-#     privateDisc = models.ForeignKey(PrivateDisc, on_delete=models.CASCADE)
-#     username = models.CharField(max_length=20)
-#     password = models.CharField(max_length=20, default='password')
-#
-#     def __str__(self):
-#         return self.username
-
-
 class Directory (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     directoryName = models.CharField(max_length=20)
 
     def __str__(self):
         return self.directoryName
+
+    def rename(self, name):
+        self.directoryName = name
 
 
 class File (models.Model):
@@ -51,6 +38,9 @@ class File (models.Model):
 
     def unmake_favourite(self):
         self.isFavourite = False
+
+    def rename(self, name):
+        self.fileName = name
 
 
 class PublicLink (models.Model):

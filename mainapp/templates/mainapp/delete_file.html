@@ -1,10 +1,9 @@
-{% extends "./directory.html" %}
+{% extends './base.html' %}
 
 {% block body_content %}
 
+    {% csrf_token %}
     {% for directory in user.directory_set.all %}
-
-        {% csrf_token %}
 
         {% if directory.id == directory_key %}
 
@@ -14,7 +13,8 @@
 
                     <div class="floatLeft">
 
-                        <a>
+                        <a href='delete_file/{{ fil.id }}'>
+
                             <figure>
 
                                 {% if fil.extension == 'pdf' %}
@@ -60,7 +60,6 @@
                                 {% endif %}
 
                                 <figcaption>
-{#                                    <input type="checkbox" id={{ fil.fileID }}>#}
                                     {{ fil.fileName }}
                                 </figcaption>
 
@@ -77,26 +76,6 @@
         {% endif %}
 
     {% endfor %}
-
-    <div class="floatLeft">
-
-        <figure>
-
-            <img src="../../static/images/file_icons/file_icon_v2.png" width="75" height="81">
-
-            <figcaption>
-
-                <form action="" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form.content }}
-                    <br><input type="submit" value="upload">
-                </form>
-
-            </figcaption>
-
-        </figure>
-
-    </div>
 
 {% endblock %}
 
