@@ -82,9 +82,16 @@
                       </div>
                     </form>
                   </div>
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
+{#                    {% for message in messages %}#}
+{#                        <p>{{ message }}</p>#}
+{#                    {% endfor %}#}
+                    {% if messages %}
+                        <script>
+                            {% for message in messages %}
+                                alert("{{ message }}")
+                            {% endfor %}
+                        </script>
+                    {% endif %}
                     <p class="u-align-center u-text u-text-1">If you don't have an account <a href="../sign-up">click here</a></p>
                 </div>
               </div>

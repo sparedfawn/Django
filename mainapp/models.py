@@ -45,7 +45,7 @@ class File (models.Model):
 
 class PublicLink (models.Model):
     file = models.ForeignKey(File, on_delete=models.CASCADE)
-    URL = models.URLField(max_length=50)
+    URL = models.CharField(max_length=30)
     generationDate = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

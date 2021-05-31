@@ -102,9 +102,16 @@
                       </div>
                     </form>
                       {{ form.errors }}
-                      {% for message in messages %}
-                        <p>{{ message }}</p>
-                      {% endfor %}
+{#                      {% for message in messages %}#}
+{#                        <p>{{ message }}</p>#}
+{#                      {% endfor %}#}
+                      {% if messages %}
+                        <script>
+                            {% for message in messages %}
+                                alert("{{ message }}")
+                            {% endfor %}
+                        </script>
+                    {% endif %}
                   </div>
                 </div>
               </div>

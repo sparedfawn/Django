@@ -3,7 +3,7 @@ from . import views
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='home'),
+    path('', views.IndexView, name='home'),
     path('drive/bin/', views.binPage, name='bin'),
     path('drive/favourites/', views.favouritePage, name='favourite'),
     path('sign-up', views.register, name='register'),
@@ -31,4 +31,16 @@ urlpatterns = [
     path('drive/favourites/unmake_favourite/<int:file_key>', views.unmake_favourite_function, name='unmake_favourite_function'),
     path('drive/favourites/rename_favourite', views.rename_favourite, name='rename_favourite'),
     path('drive/favourites/rename_favourite/<int:file_key>', views.rename_favourite_function, name='rename_favourite_function'),
+    path('drive/<int:directory_key>/cut', views.cut, name='cut'),
+    path('drive/<int:directory_key>/cut/<int:file_key>', views.cut_function, name='cut_function'),
+    path('drive/<int:directory_key>/paste', views.paste_function, name='paste_function'),
+    path('drive/<int:directory_key>/copy', views.copy, name='copy'),
+    path('drive/<int:directory_key>/copy/<int:file_key>', views.copy_function, name='copy_function'),
+    path('drive/<int:directory_key>/download', views.download, name='download'),
+    path('drive/<int:directory_key>/download/<int:file_key>', views.download_function, name='download_function'),
+    path('drive/<int:directory_key>/share', views.share_function, name='share_function'),
+    path('share/<str:url_path>', views.share, name='share'),
+    path('drive/favourites/share', views.share_favourite_function, name='share_favourite_function'),
+    path('drive/favourites/download', views.download_favourite, name='download_favourite'),
+    path('drive/favourites/download/<int:file_key>', views.download_favourite_function, name='download_favourite_function')
 ]

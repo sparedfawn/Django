@@ -7,16 +7,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.http import FileResponse, HttpResponseNotFound
 
 from .decorators import check_recaptcha
 
 
-class IndexView(generic.ListView):
-    template_name = 'mainapp/index.html'
-    context_object_name = 'homeIndex'
+max_disc_space = 1000000000
 
-    def get_queryset(self):
-        return User.objects.order_by('-username')
+
+def IndexView(request):
+    return render(request, 'mainapp/index.html')
 
 
 @check_recaptcha
@@ -236,15 +236,24 @@ def unmake_favourite_function(request, file_key):
 def upload_file(request, pk):
     form = UploadFileForm(request.POST or None, request.FILES or None)
     if form.is_valid():
+        overall = 0
+        for directory in request.user.directory_set.all():
+            for file in directory.file_set.all():
+                overall += file.content.size
+
         stock = form.save(commit=False)
-        stock.directory = Directory(pk)
-        stock.uploadDate = timezone.now()
-        name = stock.content.name
-        index = name.find('.')
-        stock.fileName = name[:index]
-        stock.extension = name[index+1:]
-        stock.save()
-        return redirect('../{}'.format(pk))
+        if overall + stock.content.size < max_disc_space:
+            stock.directory = Directory(pk)
+            stock.uploadDate = timezone.now()
+            name = stock.content.name
+            index = name.find('.')
+            stock.fileName = name[:index]
+            stock.extension = name[index+1:]
+            stock.save()
+            return redirect('../{}'.format(pk))
+        else:
+            messages.info('You ran out of space in your cloud.')
+            return redirect('../{}'.format(pk))
 
     context = {
         'form': form,
@@ -271,3 +280,135 @@ def rename_favourite_function(request, file_key):
         'file_key': file_key,
     }
     return render(request, 'mainapp/rename_favourite_function.html', context)
+
+
+@login_required(login_url='login')
+def cut(request, directory_key):
+    context = {
+        'directory_key': directory_key
+    }
+    return render(request, 'mainapp/cut.html', context)
+
+
+@login_required(login_url='login')
+def cut_function(request, directory_key, file_key):
+    request.session['operation_type'] = 'cut'
+    request.session['operation_object'] = file_key
+    return redirect('../../{}'.format(directory_key))
+
+
+@login_required(login_url='login')
+def paste_function(request, directory_key):
+    object_key = request.session.get('operation_object')
+    operation_type = request.session.get('operation_type')
+    if operation_type == 'cut':
+        file = File.objects.get(pk=int(object_key))
+        file.directory_id = directory_key
+        file.save()
+        request.session['operation_type'] = 'none'
+        request.session['operation_object'] = 0
+        return redirect('../{}'.format(directory_key))
+    elif operation_type == 'copy':
+        file = File()
+        copied_file = File.objects.get(pk=int(object_key))
+        file.fileName = copied_file.fileName
+        file.extension = copied_file.extension
+        file.content = copied_file.content
+        file.directory_id = directory_key
+        file.uploadDate = copied_file.uploadDate
+        file.save()
+        return redirect('../{}'.format(directory_key))
+    else:
+        print('operation not possible')
+
+    return redirect('../{}'.format(directory_key))
+
+
+@login_required(login_url='login')
+def copy(request, directory_key):
+    context = {
+        'directory_key': directory_key
+    }
+    return render(request, 'mainapp/copy.html', context)
+
+
+@login_required(login_url='login')
+def copy_function(request, directory_key, file_key):
+    request.session['operation_type'] = 'copy'
+    request.session['operation_object'] = file_key
+    return redirect('../../{}'.format(directory_key))
+
+
+@login_required(login_url='login')
+def download(request, directory_key):
+    context = {
+        'directory_key': directory_key
+    }
+    return render(request, 'mainapp/download.html', context)
+
+
+@login_required(login_url='login')
+def download_function(request, directory_key, file_key):
+    file = File.objects.get(pk=file_key)
+    content = file.content.path
+    response = FileResponse(open(content, 'rb'))
+    return response
+
+
+@login_required(login_url='login')
+def share_function(request, directory_key):
+    if request.method == 'POST':
+        file = request.POST.get('file_key', None)
+        url = PublicLink()
+        url.file_id = file
+        url.generationDate = timezone.now()
+        url.URL = '{}{}{}{}{}{}{}'.format(file, url.generationDate.year, url.generationDate.month, url.generationDate.day, url.generationDate.hour, url.generationDate.minute, url.generationDate.second)
+        url.save()
+        messages.info(request, 'Your generated link is: localhost:8000/share/{}'.format(url.URL))
+        return redirect('../{}'.format(directory_key))
+
+    context = {
+        'directory_key': directory_key
+    }
+    return render(request, 'mainapp/share.html', context)
+
+
+def share(request, url_path):
+    url_query = PublicLink.objects.filter()
+    for url in url_query:
+        if str(url_path) == str(url):
+            file_key = url.file_id
+            file = File.objects.get(pk=file_key)
+            content = file.content.path
+            response = FileResponse(open(content, 'rb'))
+            return response
+
+    return HttpResponseNotFound('No such file shared')
+
+
+@login_required(login_url='login')
+def share_favourite_function(request):
+    if request.method == 'POST':
+        file = request.POST.get('file_key', None)
+        url = PublicLink()
+        url.file_id = file
+        url.generationDate = timezone.now()
+        url.URL = '{}{}{}{}{}{}{}'.format(file, url.generationDate.year, url.generationDate.month, url.generationDate.day, url.generationDate.hour, url.generationDate.minute, url.generationDate.second)
+        url.save()
+        messages.info(request, 'Your generated link is: localhost:8000/share/{}'.format(url.URL))
+        return redirect('../favourites')
+
+    return render(request, 'mainapp/share_favourite.html')
+
+
+@login_required(login_url='login')
+def download_favourite(request):
+    return render(request, "mainapp/download_favourite.html")
+
+
+@login_required(login_url='login')
+def download_favourite_function(request, file_key):
+    file = File.objects.get(pk=file_key)
+    content = file.content.path
+    response = FileResponse(open(content, 'rb'))
+    return response
