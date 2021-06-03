@@ -19,6 +19,7 @@ from django.shortcuts import redirect
 
 from django.views.static import serve
 from django.conf.urls import url
+from django.conf import settings
 
 urlpatterns = [
     path('admin/logout/', lambda request: redirect('/logout', permanent=False)),
