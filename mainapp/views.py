@@ -364,7 +364,7 @@ def share_function(request, directory_key):
         url.generationDate = timezone.now()
         url.URL = '{}{}{}{}{}{}{}'.format(file, url.generationDate.year, url.generationDate.month, url.generationDate.day, url.generationDate.hour, url.generationDate.minute, url.generationDate.second)
         url.save()
-        messages.info(request, 'Your generated link is: localhost:8000/share/{}'.format(url.URL))
+        messages.info(request, 'Your generated link is: e-disk.herokuapp.com/share/{}'.format(url.URL))
         return redirect('../{}'.format(directory_key))
 
     context = {
